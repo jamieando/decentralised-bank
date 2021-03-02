@@ -20,11 +20,11 @@ contract('dBank', ([deployer, user]) => {
   describe('testing token contract...', () => {
     describe('success', () => {
       it('checking token name', async () => {
-        expect(await token.name()).to.be.eq('Decentralized Bank Currency')
+        expect(await token.name()).to.be.eq('Novus Token')
       })
 
       it('checking token symbol', async () => {
-        expect(await token.symbol()).to.be.eq('DBC')
+        expect(await token.symbol()).to.be.eq('NOV')
       })
 
       it('checking token initial total supply', async () => {

@@ -8,7 +8,7 @@ import './App.css';
 
 class App extends Component {
 
-  async componentWillMount() {
+  async componentDidMount() {
     await this.loadBlockchainData(this.props.dispatch)
   }
 

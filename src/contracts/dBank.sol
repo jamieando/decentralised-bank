@@ -20,7 +20,7 @@ contract dBank {
   event Deposit(address indexed user, uint etherAmount, uint timeStart);
   event Withdraw(address indexed user, uint etherAmount, uint depositTime, uint interest);
   event Borrow(address indexed user, uint collateralEtherAmount, uint borrowedTokenAmount);
-
+  event PayOff(address indexed user, uint fee);
 
   //pass as constructor argument deployed Token contract
   constructor(Token _token) public {
@@ -97,14 +97,21 @@ contract dBank {
 
   function payOff() public {
     //check if loan is active
+    require(isBorrowed[msg.sender] == true, 'Error, loan not active');
     //transfer tokens from user back to the contract
+    require(token.transferFrom(msg.sender, address(this), collateralEther[msg.sender]/2), "Error, can't receive tokens"); //must approve dBank 1st
 
     //calc fee
+    uint fee = collateralEther[msg.sender]/10; //calc 10% fee
 
     //send user's collateral minus fee
+    msg.sender.transfer(collateralEther[msg.sender]-fee);
 
     //reset borrower's data
+    collateralEther[msg.sender] = 0;
+    isBorrowed[msg.sender] = false;
 
     //emit event
+    emit PayOff(msg.sender, fee);
   }
 }

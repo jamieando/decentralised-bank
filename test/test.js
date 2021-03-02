@@ -121,4 +121,35 @@ contract('dBank', ([deployer, user]) => {
       })
     })
   })
+
+  describe('testing borrow...', () => {
+
+    describe('success', () => {
+      beforeEach(async () => {
+        await dbank.borrow({value: 10**16, from: user}) //0.01 ETH
+      })
+
+      it('token total supply should increase', async () => {
+        expect(Number(await token.totalSupply())).to.eq(5*(10**15)) //10**16/2
+      })
+
+      it('balance of user should increase', async () => {
+        expect(Number(await token.balanceOf(user))).to.eq(5*(10**15)) //10**16/2
+      })
+
+      it('collateralEther should increase', async () => {
+        expect(Number(await dbank.collateralEther(user))).to.eq(10**16) //0.01 ETH
+      })
+
+      it('user isBorrowed status should eq true', async () => {
+        expect(await dbank.isBorrowed(user)).to.eq(true)
+      })
+    })
+
+    describe('failure', () => {
+      it('borrowing should be rejected', async () => {
+        await dbank.borrow({value: 10**15, from: user}).should.be.rejectedWith(EVM_REVERT) //to small amount
+      })
+    })
+  })
 })

@@ -99,7 +99,12 @@ class App extends Component {
     }
   }
 
+  
+
   render() {
+    function refreshPage() {
+      window.location.reload();
+    }
     return (
       <div className='text-monospace'>
         <nav className="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
@@ -148,7 +153,7 @@ class App extends Component {
                           placeholder='amount...'
                           required />
                       </div>
-                      <button type='submit' className='btn btn-primary'>DEPOSIT</button>
+                      <button type='submit' onClick={ refreshPage } className='btn btn-primary'>DEPOSIT</button>
                     </form>
 
                   </div>
@@ -190,7 +195,7 @@ class App extends Component {
                           placeholder='amount...'
                           required />
                       </div>
-                      <button type='submit' className='btn btn-primary'>BORROW</button>
+                      <button type='submit' onClick={ refreshPage } className='btn btn-primary'>BORROW</button>
                     </form>
                   </div>
                 </Tab>
